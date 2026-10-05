@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "background_load": {
+    "enabled": false,
+    "source_jsonl": "evaluation/data/geneval/train.jsonl",
+    "max_prompts": 50,
+    "shuffle_seed": 42,
+    "request_interval_seconds": 1.0,
+    "error_backoff_seconds": 5.0,
+    "ready_timeout_seconds": 900,
+    "request_timeout_seconds": 600
+  }
+}

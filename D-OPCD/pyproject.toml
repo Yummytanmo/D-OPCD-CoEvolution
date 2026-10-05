@@ -1,0 +1,19 @@
+[project]
+name = "d-opcd"
+version = "0.1.0"
+description = "Diffusion On-Policy Context Distillation for Z-Image-Turbo and Qwen-Image"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "accelerate==1.12.0",
+  "diffusers==0.38.0",
+  "peft==0.18.0",
+  "safetensors==0.8.0",
+  "torch==2.7.0",
+  "tqdm==4.67.1",
+  "transformers==5.0.0rc0",
+  "wandb>=0.19,<1",
+]
+
+[tool.uv]
+package = false

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "method": "flow_dpo",
+  "run_id": "my_dataset_flow_dpo_fair_s42_r1",
+  "dataset": "my_dataset",
+  "context_jsonl": "data/my_dataset/my-data-id/train.jsonl",
+  "image_manifest_jsonl": "data/my_dataset/my-data-id/flow_dpo.images.jsonl",
+  "expected_count": null
+}
+

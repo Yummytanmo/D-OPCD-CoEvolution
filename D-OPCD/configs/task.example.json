@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "experiment_id": "paper-default-geneval",
+  "dataset": "geneval",
+  "selection": "all",
+  "data_path": "data/geneval/paper-default/train.jsonl",
+  "expected_count": 276,
+  "model_path": "models/Z-Image-Turbo",
+  "trainer_args": {
+    "teacher_context_mode": "q_plus_p",
+    "seed": 42,
+    "max_train_steps": 2000,
+    "checkpointing_steps": 200,
+    "learning_rate": 0.0001,
+    "rank": 64,
+    "lora_alpha": 128,
+    "train_batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "student_max_sequence_length": 512,
+    "teacher_max_sequence_length": 1024
+  }
+}

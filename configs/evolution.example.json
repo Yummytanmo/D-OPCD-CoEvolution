@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "run_id": "geneval-ase-r0",
+  "run_root": "runs",
+  "manifests": [
+    "evaluation/data/geneval/train.jsonl"
+  ],
+  "max_tasks": null,
+  "checkpoint_every_tasks": 80,
+  "shuffle_seed": null,
+  "round_id": 0,
+  "freeze_state": false,
+  "skip_health_check": false,
+  "preflight": {
+    "enabled": true,
+    "generator_health_path": "/ready",
+    "generator_timeout_seconds": 15,
+    "mllm_timeout_seconds": 60,
+    "mllm_max_tokens": 8,
+    "feedback_timeout_seconds": 15
+  },
+  "generator": {
+    "url": "http://127.0.0.1:8001/generate",
+    "model": "Tongyi-MAI/Z-Image-Turbo",
+    "timeout_seconds": 600,
+    "max_attempts": 2,
+    "retry_backoff_seconds": 2,
+    "trust_env": false
+  },
+  "mllm": {
+    "url": "http://127.0.0.1:30000/v1",
+    "model": "YOUR_MULTIMODAL_MODEL",
+    "api_key_env": "GEMS_MLLM_API_KEY",
+    "max_tokens": 32768,
+    "timeout_seconds": 180,
+    "max_retries": 2,
+    "trust_env": false,
+    "compress_images": true,
+    "image_format": "webp",
+    "image_total_max_bytes": 800000
+  },
+  "agent": {
+    "max_iterations": 5
+  },
+  "verification": {
+    "max_questions": 10
+  },
+  "evaluation": {
+    "batch_size": 8,
+    "workers": 4
+  },
+  "feedback": {
+    "services": {
+      "geneval": "http://127.0.0.1:8101",
+      "geneval2": "http://127.0.0.1:8104",
+      "wise": "http://127.0.0.1:8105",
+      "r2ibench": "http://127.0.0.1:8108"
+    },
+    "timeout_seconds": 600,
+    "max_attempts": 3,
+    "retry_backoff_seconds": 2,
+    "on_error": "abort",
+    "evolution_input": "reward",
+    "reward_threshold": 0.5
+  },
+  "memory": {
+    "top_k": 4,
+    "consolidation_top_k": 4,
+    "episode_summary": false,
+    "consolidation_max_attempts": 3,
+    "retrieval_strategy": "embedding",
+    "semantic_threshold": 0.35,
+    "duplicate_threshold": 0.92,
+    "embedding": {
+      "provider": "transformers",
+      "model": "BAAI/bge-m3",
+      "device": "cpu",
+      "pooling": "cls",
+      "batch_size": 32,
+      "max_length": 512,
+      "query_prefix": ""
+    }
+  },
+  "skill": {
+    "initialization": "empty",
+    "seed_dir": "agent/skills",
+    "min_support": 2,
+    "min_batches": 2,
+    "min_mean_reward": 0.5,
+    "min_mature_insights": 3,
+    "evolution_max_attempts": 3,
+    "max_skill_characters": 4500,
+    "hard_max_skills": 5,
+    "min_batches_between_evolutions": 4
+  }
+}

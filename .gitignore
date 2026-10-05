@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+*.local.json
+evaluation/config.json
+evaluation/client_config.json
+runs/
+results/
+logs/
+wandb/
+models/
+evaluation/.assets/
+result-backups/
+*.zip
+*.tar
+*.tar.gz
+*.tar.zst
+
+# Local development metadata.
+/.codex/
+/.worktrees/
+/AGENTS.md
+/experiments/

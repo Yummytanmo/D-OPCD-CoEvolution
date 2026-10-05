@@ -1,0 +1,36 @@
+[project]
+name = "dopcd-coevolution"
+version = "0.1.0"
+description = "D-OPCD and ASE for agent and diffusion model co-evolution"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "httpx>=0.27,<1",
+    "openai>=1.50,<4",
+    "pillow>=10,<13",
+    "pydantic>=2.9,<3",
+    "requests>=2.31,<3",
+    "tqdm>=4.66,<5",
+]
+
+[project.optional-dependencies]
+evaluation = [
+    "torch>=2.4",
+    "transformers>=4.57,<6",
+    "accelerate>=1,<2",
+]
+embedding = [
+    "torch>=2.4",
+    "transformers>=4.45,<6",
+]
+generator = [
+    "diffusers>=0.32",
+    "fastapi>=0.115",
+    "peft==0.18.0",
+    "torch>=2.4",
+    "transformers>=4.45,<6",
+    "uvicorn[standard]>=0.30",
+]
+
+[tool.uv]
+package = false

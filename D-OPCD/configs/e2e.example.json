@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "method": "dopcd",
+  "experiment_id": "geneval-dopcd",
+  "benchmark": "geneval",
+  "training": {
+    "task_template": "configs/my-task.local.json",
+    "runtime_config": "configs/runtime.json"
+  },
+  "splits": {
+    "validation": {
+      "path": "../evaluation/data/geneval/validation.jsonl",
+      "count": 83
+    },
+    "test": {
+      "path": "../evaluation/data/geneval/test.jsonl",
+      "count": 194
+    }
+  },
+  "checkpoint_steps": [
+    200,
+    400,
+    600,
+    800,
+    1000,
+    1200,
+    1400,
+    1600,
+    1800,
+    2000
+  ],
+  "generation": {
+    "model_path": "models/Z-Image-Turbo",
+    "accelerate": ".venv/bin/accelerate",
+    "width": 1024,
+    "height": 1024,
+    "num_inference_steps": 8,
+    "guidance_scale": 0.0,
+    "max_sequence_length": 512,
+    "lora_scale": 1.0,
+    "validation_parallelism": 1,
+    "test_processes": 1
+  },
+  "evaluation": {
+    "python": "../.venv/bin/python",
+    "evaluator_root": "../evaluation/.assets/geneval",
+    "detector_model": "../models/geneval",
+    "clip_cache": "../models/open_clip"
+  }
+}

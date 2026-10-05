@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "method": "sft",
+  "run_id": "my_dataset_sft_fair_s42_r1",
+  "dataset": "my_dataset",
+  "context_jsonl": "data/my_dataset/my-data-id/train.jsonl",
+  "image_manifest_jsonl": "data/my_dataset/my-data-id/sft.images.jsonl",
+  "expected_count": null
+}
+

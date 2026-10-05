@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.local.json
+/results/
+/runs/
+/wandb/
+/models/
+/data/

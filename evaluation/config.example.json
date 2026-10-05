@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "model_root": "models",
+  "feedback_mllm": {
+    "api_key": "EMPTY",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "model": "Qwen3-VL-8B-Instruct",
+    "required": true,
+    "compress_images": false
+  },
+  "service": {
+    "host": "127.0.0.1",
+    "evaluator_concurrency": 1,
+    "ports": {
+      "geneval": 8101,
+      "geneval2": 8104,
+      "wise": 8105,
+      "r2ibench": 8108
+    }
+  },
+  "geneval2": {
+    "model_path": "models/Qwen3-VL-8B-Instruct",
+    "dtype": "bfloat16",
+    "evaluator_concurrency": 1
+  },
+  "r2ibench": {
+    "api_base": "http://127.0.0.1:8208/v1",
+    "model": "Qwen3-VL-32B-Instruct",
+    "concurrency": 1,
+    "timeout_seconds": 900,
+    "cache_dir": "runs/cache/r2ibench-judge"
+  }
+}

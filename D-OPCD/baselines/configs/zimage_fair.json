@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "protocol_name": "zimage-dopcd-fair-v1",
+  "reference_runtime_config": "configs/runtime.json",
+  "reference_trainer_defaults": {
+    "lora_layers": [
+      "feed_forward.w1",
+      "feed_forward.w2",
+      "feed_forward.w3",
+      "attention.to_k",
+      "attention.to_q",
+      "attention.to_v",
+      "attention.to_out.0"
+    ]
+  },
+  "methods": {
+    "sft": {
+      "trainer": "baselines/train_sft.py",
+      "trainer_args": {
+        "timestep_sampling": "logit_normal",
+        "timestep_sampling_logit_mean": 0.0,
+        "timestep_sampling_logit_std": 1.0,
+        "num_train_timesteps_per_batch": 1,
+        "random_horizontal_flip": false
+      }
+    },
+    "flow_dpo": {
+      "trainer": "baselines/train_flow_dpo.py",
+      "trainer_args": {
+        "beta_dpo": 2500.0,
+        "timestep_sampling": "logit_normal",
+        "timestep_sampling_logit_mean": 0.0,
+        "timestep_sampling_logit_std": 1.0,
+        "num_train_timesteps_per_batch": 2,
+        "random_horizontal_flip": false
+      }
+    }
+  },
+  "environment": {
+    "TOKENIZERS_PARALLELISM": "false"
+  }
+}
