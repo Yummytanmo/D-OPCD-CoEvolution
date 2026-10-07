@@ -1,13 +1,14 @@
 # Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation
 
 <p align="center">
-  <a href=""><img alt="Paper" src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white"></a>
+  <a href="https://arxiv.org/abs/2610.07250"><img alt="Paper" src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white"></a>
   <a href=""><img alt="Project Page" src="https://img.shields.io/badge/Project-Page-2ea44f?style=for-the-badge&logo=githubpages&logoColor=white"></a>
   <a href=""><img alt="Daily Papers" src="https://img.shields.io/badge/Hugging%20Face-Daily%20Papers-ffcc4d?style=for-the-badge&logo=huggingface&logoColor=black"></a>
   <a href="https://github.com/Yummytanmo/D-OPCD-CoEvolution"><img alt="Code" src="https://img.shields.io/badge/Code-GitHub-24292f?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
 
 <p align="center">
+  <a href="#news">News</a> |
   <a href="#overview">Overview</a> |
   <a href="#installation">Installation</a> |
   <a href="#data-preparation">Data Preparation</a> |
@@ -17,6 +18,10 @@
   <a href="#results">Results</a> |
   <a href="#citation">Citation</a>
 </p>
+
+## News
+
+- **2026-10-07:** arXiv preprint is online: [https://arxiv.org/abs/2610.07250](https://arxiv.org/abs/2610.07250)
 
 ## Overview
 
@@ -261,9 +266,13 @@ Our Agent scaffold builds on GEMS. We thank the authors of GenEval, GenEval2, WI
 If you find this work useful, please cite:
 
 ```bibtex
-@misc{wang2026dopcd,
+@misc{wang2026internalizingagentexperiencediffusion,
   title = {Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation},
+  author = {Wenxuan Wang and Zekai Liu and Weinan Zhang and Yu Cheng and Yang Yang},
   year = {2026},
-  url = {}
+  eprint = {2610.07250},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  url = {https://arxiv.org/abs/2610.07250}
 }
 ```
