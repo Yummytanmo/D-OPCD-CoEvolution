@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2610.07250"><img alt="Paper" src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white"></a>
-  <a href=""><img alt="Project Page" src="https://img.shields.io/badge/Project-Page-2ea44f?style=for-the-badge&logo=githubpages&logoColor=white"></a>
+  <a href="https://yummytanmo.github.io/D-OPCD-CoEvolution/"><img alt="Project Page" src="https://img.shields.io/badge/Project-Page-2ea44f?style=for-the-badge&logo=githubpages&logoColor=white"></a>
   <a href=""><img alt="Daily Papers" src="https://img.shields.io/badge/Hugging%20Face-Daily%20Papers-ffcc4d?style=for-the-badge&logo=huggingface&logoColor=black"></a>
   <a href="https://github.com/Yummytanmo/D-OPCD-CoEvolution"><img alt="Code" src="https://img.shields.io/badge/Code-GitHub-24292f?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
@@ -22,6 +22,7 @@
 ## News
 
 - **2026-10-07:** arXiv preprint is online: [https://arxiv.org/abs/2610.07250](https://arxiv.org/abs/2610.07250)
+- **2026-10-07:** Project page is online: [https://yummytanmo.github.io/D-OPCD-CoEvolution/](https://yummytanmo.github.io/D-OPCD-CoEvolution/)
 
 ## Overview
 
