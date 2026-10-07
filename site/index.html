@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182b42">
+  <title>Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation</title>
+  <meta name="description" content="Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation. D-OPCD and Auto Skill Evolver enable harness–model co-evolution for text-to-image generation.">
+  <meta property="og:title" content="Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation">
+  <meta property="og:description" content="Turn agent experience into lasting diffusion model capability through on-policy context distillation.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/example-1-4.webp" type="image/webp">
+  <link rel="preload" href="assets/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/icons/icons.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <main id="main">
+    <section class="hero container publication-header" aria-labelledby="paper-title">
+      <h1 class="publication-title" id="paper-title">Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation</h1>
+      <div class="publication-authors" aria-label="Authors">
+        <span class="author-block"><span class="author-name">Wenxuan Wang</span><sup>1,2,*</sup>,</span>
+        <span class="author-block"><span class="author-name">Zekai Liu</span><sup>3,*</sup>,</span>
+        <span class="author-block"><span class="author-name">Weinan Zhang</span><sup>1</sup>,</span>
+        <span class="author-block"><span class="author-name">Yu Cheng</span><sup>4,†</sup>,</span>
+        <span class="author-block"><span class="author-name">Yang Yang</span><sup>5,†</sup></span>
+      </div>
+      <div class="publication-affiliations" aria-label="Affiliations">
+        <div class="affiliation-row">
+          <span class="author-block"><sup>1</sup>Harbin Institute of Technology</span>
+          <span class="author-block"><sup>2</sup>Shanghai AI Laboratory</span>
+          <span class="author-block"><sup>3</sup>Shandong University</span>
+        </div>
+        <div class="affiliation-row">
+          <span class="author-block"><sup>4</sup>Nanyang Technological University</span>
+          <span class="author-block"><sup>5</sup>Shanghai Jiao Tong University</span>
+        </div>
+      </div>
+      <p class="author-notes"><sup>*</sup> Equal contribution. <sup>†</sup> Corresponding author.</p>
+      <div class="publication-links" aria-label="Research resources">
+        <button class="button is-normal is-rounded is-dark" data-resource="paper" disabled title="Paper link will be added when available">
+          <span class="icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+        </button>
+        <button class="button is-normal is-rounded is-dark" data-resource="arxiv" disabled title="arXiv link will be added when available">
+          <span class="icon" aria-hidden="true"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+        </button>
+        <a class="external-link button is-normal is-rounded is-dark" href="https://github.com/Yummytanmo/D-OPCD-CoEvolution">
+          <span class="icon" aria-hidden="true"><i class="fab fa-github"></i></span><span>Code</span>
+        </a>
+        <a class="button is-normal is-rounded is-dark" href="#citation">
+          <span class="icon" aria-hidden="true"><i class="fas fa-quote-right"></i></span><span>BibTeX</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section gallery-section container" id="examples" aria-labelledby="examples-title">
+      <div class="section-heading centered">
+        <h2 id="examples-title">Agent experience, retained in the generator</h2>
+        <p>The same original query, before and after D-OPCD.</p>
+      </div>
+      <div class="gallery-toolbar">
+        <div class="segmented" id="mode-tabs" role="tablist" aria-label="Inference setting">
+          <button id="mode-direct" role="tab" aria-selected="true" aria-controls="gallery-panel">Direct generation</button>
+          <button id="mode-harness" role="tab" aria-selected="false" aria-controls="gallery-panel" tabindex="-1">Skill-free harness</button>
+          <button id="mode-skills" role="tab" aria-selected="false" aria-controls="gallery-panel" tabindex="-1">Evolved skills</button>
+        </div>
+        <p class="gallery-note">Click an image to enlarge</p>
+      </div>
+      <div id="gallery-panel" role="tabpanel" aria-labelledby="mode-direct">
+        <div class="image-pair">
+          <figure class="sample">
+            <figcaption>Base generator <span id="base-mode">Direct generation</span></figcaption>
+            <button class="image-button" data-enlarge aria-label="Enlarge base generator output for a car and a computer mouse">
+              <img id="base-image" src="assets/example-1-1.webp" alt="Base generator, direct generation: a photo of a car and a computer mouse" width="640" height="640" fetchpriority="high">
+            </button>
+          </figure>
+          <figure class="sample updated">
+            <figcaption>D-OPCD generator <span id="updated-mode">Direct generation</span></figcaption>
+            <button class="image-button" data-enlarge aria-label="Enlarge D-OPCD generator output for a car and a computer mouse">
+              <img id="updated-image" src="assets/example-1-4.webp" alt="D-OPCD generator, direct generation: a photo of a car and a computer mouse" width="640" height="640" fetchpriority="high">
+            </button>
+          </figure>
+        </div>
+        <div class="query">
+          <span class="query-label">Original query</span>
+          <p id="query-text">a photo of a car and a computer mouse</p>
+        </div>
+      </div>
+      <div class="example-picker" role="group" aria-label="Choose an example">
+        <button data-example="0" aria-pressed="true"><img src="assets/example-1-4.webp" alt="" width="40" height="40"><span>Car &amp; mouse</span></button>
+        <button data-example="1" aria-pressed="false"><img src="assets/example-2-4.webp" alt="" width="40" height="40" loading="lazy"><span>Couch &amp; cup</span></button>
+        <button data-example="2" aria-pressed="false"><img src="assets/example-3-4.webp" alt="" width="40" height="40" loading="lazy"><span>Lion &amp; glass cows</span></button>
+        <button data-example="3" aria-pressed="false"><img src="assets/example-4-4.webp" alt="" width="40" height="40" loading="lazy"><span>Irish symbol</span></button>
+      </div>
+      <p class="caption">Selected test queries from the paper. Direct generation uses the original query only; harness runs may use agent-selected prompts. The evolved-skills setting uses the original skills with the base generator and newly evolved skills with the updated generator.</p>
+      <p id="gallery-status" class="visually-hidden" role="status"></p>
+      <noscript><p class="caption">Enable JavaScript to switch between the four examples and three inference settings.</p></noscript>
+    </section>
+
+    <div class="container">
+      <div class="takeaways" aria-label="Key results">
+        <div class="takeaway">
+          <p class="takeaway-label">Direct generation · four-benchmark average</p>
+          <p class="takeaway-value">60.52 <span>→</span> 65.09</p>
+          <p><strong>+4.57 points</strong> after internalizing agent experience.</p>
+        </div>
+        <div class="takeaway">
+          <p class="takeaway-label">Updated generator · renewed skill evolution</p>
+          <p class="takeaway-value">82.33 <span>→</span> 84.16</p>
+          <p><strong>+1.83 points</strong> from a second round of ASE.</p>
+        </div>
+      </div>
+      <section class="abstract narrow" aria-labelledby="abstract-title">
+        <h2 id="abstract-title">Abstract</h2>
+        <p class="prose">An agentic harness can improve text-to-image generation through memory, skills, verification, and iterative prompt refinement. These gains remain external to the diffusion model and require the harness at inference time. <strong>Diffusion On-Policy Context Distillation (D-OPCD)</strong> treats the agent-improved prompt as privileged context and distills its guidance into the generator’s weights. The updated generator retains part of the harness’s benefit when conditioned on the original query alone. With <strong>Auto Skill Evolver (ASE)</strong> turning task experience into reusable skills, direct generation improves from 60.52 to 65.09 on average across four benchmarks. After internalization, the harness resets its learned skills and evolves again around the updated generator, raising the average from 82.33 to 84.16.</p>
+      </section>
+    </div>
+
+    <section class="section container" id="method" aria-labelledby="method-title">
+      <div class="section-heading">
+        <p class="eyebrow">Diffusion On-Policy Context Distillation</p>
+        <h2 id="method-title">From prompt guidance to model weights</h2>
+        <p>The teacher sees the original query and the matched harness prompt. The student learns on its own denoising trajectories, conditioned on the original query alone.</p>
+      </div>
+      <figure class="paper-figure">
+        <button class="image-button" data-enlarge aria-label="Enlarge the D-OPCD method overview">
+          <img src="assets/method_overview.webp" alt="D-OPCD overview: agent experience supplies matched query–prompt pairs; an EMA teacher guides a query-conditioned student by velocity matching along student on-policy rollouts; the updated model generates directly from the query." width="2400" height="1117" loading="lazy">
+        </button>
+        <figcaption>D-OPCD internalizes prompt-mediated harness gains through on-policy velocity matching.</figcaption>
+      </figure>
+      <div class="steps">
+        <div><span class="step-number">01</span><h3>Collect agent experience</h3><p>Replay the selected skill-equipped harness to collect original queries and matched generation prompts.</p></div>
+        <div><span class="step-number">02</span><h3>Distill privileged context</h3><p>Match the EMA teacher’s predictions along the student’s own sampling trajectory, with the harness prompt hidden from the student.</p></div>
+        <div><span class="step-number">03</span><h3>Resume harness evolution</h3><p>Adopt the updated generator, reset the learned skills, and run ASE again to learn new guidance.</p></div>
+      </div>
+    </section>
+
+    <section class="section ase-section" id="ase" aria-labelledby="ase-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Auto Skill Evolver</p>
+          <h2 id="ase-title">Episodes become insights. Insights become skills.</h2>
+          <p>ASE learns reusable prompt guidance from completed tasks while the generator remains fixed.</p>
+        </div>
+        <figure class="paper-figure">
+          <button class="image-button" data-enlarge aria-label="Enlarge the Auto Skill Evolver framework">
+            <img src="assets/harness_evolution.webp" alt="Auto Skill Evolver: task episodes feed the Insight Manager; supporting and contradicting evidence matures insights; the Skill Manager consolidates mature insights into a bounded skill library; validation selects a harness version for D-OPCD." width="2400" height="1633" loading="lazy">
+          </button>
+        </figure>
+        <div class="steps">
+          <div><span class="step-number">EPISODE</span><h3>Record task experience</h3><p>Capture the execution trajectory and external evaluation feedback from each completed task.</p></div>
+          <div><span class="step-number">INSIGHT</span><h3>Refine across tasks</h3><p>Extract guidance and mature it with supporting or contradicting evidence from later episodes.</p></div>
+          <div><span class="step-number">SKILL</span><h3>Consolidate reusable guidance</h3><p>Combine mature insights into bounded instructions that guide the first generation prompt.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="results" aria-labelledby="results-title">
+      <div class="section-heading">
+        <p class="eyebrow">Experiments</p>
+        <h2 id="results-title">Internalization and continued co-evolution</h2>
+        <p>Results on GenEval, GenEval2, WISE Verified, and R2I-Bench, with T2I-CompBench++ for out-of-distribution evaluation.</p>
+      </div>
+      <div class="results-tabs" id="result-tabs" role="tablist" aria-label="Result tables">
+        <button id="tab-main" role="tab" aria-selected="true" aria-controls="results-main">Main results</button>
+        <button id="tab-baselines" role="tab" aria-selected="false" aria-controls="results-baselines" tabindex="-1">Training methods</button>
+        <button id="tab-teacher" role="tab" aria-selected="false" aria-controls="results-teacher" tabindex="-1">Teacher input</button>
+        <button id="tab-ood" role="tab" aria-selected="false" aria-controls="results-ood" tabindex="-1">OOD generalization</button>
+      </div>
+      <div id="results-main" data-result-panel role="tabpanel" aria-labelledby="tab-main">
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Main paper results; scroll horizontally on smaller screens">
+<table>
+<caption class="visually-hidden">Main paper results</caption>
+<thead><tr><th scope="col">Method</th>
+<th scope="col">GenEval</th>
+<th scope="col">GenEval2</th>
+<th scope="col">WISE</th>
+<th scope="col">R2I-Bench</th>
+<th scope="col">Avg.</th>
+</tr></thead><tbody>
+<tr class=""><th scope="row">Base generator, direct</th>
+<td>78.22</td>
+<td>78.14</td>
+<td>42.86</td>
+<td>42.87</td>
+<td>60.52</td>
+</tr>
+<tr class=""><th scope="row">Base + skill-free harness</th>
+<td>83.51</td>
+<td>87.50</td>
+<td>78.00</td>
+<td>68.12</td>
+<td>79.28</td>
+</tr>
+<tr class=""><th scope="row">Base + evolved skills</th>
+<td>87.63</td>
+<td>88.83</td>
+<td>81.43</td>
+<td>69.41</td>
+<td>81.83</td>
+</tr>
+<tr class="highlight divider"><th scope="row">D-OPCD generator, direct</th>
+<td>81.28</td>
+<td>82.24</td>
+<td>50.00</td>
+<td>46.83</td>
+<td>65.09</td>
+</tr>
+<tr class=""><th scope="row">D-OPCD + skill-free harness</th>
+<td>86.08</td>
+<td>88.41</td>
+<td>81.14</td>
+<td><strong>73.68</strong></td>
+<td>82.33</td>
+</tr>
+<tr class="highlight"><th scope="row">D-OPCD + newly evolved skills</th>
+<td><strong>91.75</strong></td>
+<td><strong>89.74</strong></td>
+<td><strong>85.71</strong></td>
+<td>69.45</td>
+<td><strong>84.16</strong></td>
+</tr>
+</tbody></table></div>
+        <p class="result-summary">D-OPCD improves direct generation on all four benchmarks. The updated generator with a skill-free harness reaches <strong>82.33</strong>, slightly above the original skill-equipped agent’s <strong>81.83</strong>. Renewed ASE raises the updated agent’s average to <strong>84.16</strong>, improving three benchmarks; R2I-Bench declines after this second skill-evolution round.</p>
+      </div>
+      <div id="results-baselines" data-result-panel role="tabpanel" aria-labelledby="tab-baselines" hidden>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Direct-generation training method comparison; scroll horizontally on smaller screens">
+<table>
+<caption class="visually-hidden">Direct-generation training method comparison</caption>
+<thead><tr><th scope="col">Method</th>
+<th scope="col">GenEval</th>
+<th scope="col">GenEval2</th>
+<th scope="col">WISE</th>
+<th scope="col">R2I-Bench</th>
+<th scope="col">Avg.</th>
+</tr></thead><tbody>
+<tr class=""><th scope="row">Base generator, direct</th>
+<td>78.22</td>
+<td>78.14</td>
+<td>42.86</td>
+<td>42.87</td>
+<td>60.52</td>
+</tr>
+<tr class=""><th scope="row">Vanilla SFT</th>
+<td>80.09</td>
+<td>80.94</td>
+<td>46.00</td>
+<td>46.51</td>
+<td>63.38</td>
+</tr>
+<tr class=""><th scope="row">Diffusion-DPO</th>
+<td>77.56</td>
+<td>79.04</td>
+<td>45.43</td>
+<td>46.70</td>
+<td>62.18</td>
+</tr>
+<tr class=""><th scope="row">D-OPSD</th>
+<td>80.72</td>
+<td>76.48</td>
+<td>48.86</td>
+<td>44.96</td>
+<td>62.75</td>
+</tr>
+<tr class="highlight"><th scope="row">D-OPCD</th>
+<td><strong>81.28</strong></td>
+<td><strong>82.24</strong></td>
+<td><strong>50.00</strong></td>
+<td><strong>46.83</strong></td>
+<td><strong>65.09</strong></td>
+</tr>
+</tbody></table></div>
+        <p class="result-summary">All methods start from the same Z-Image-Turbo weights and use matched task records from the evolved harness. <strong>D-OPCD achieves the highest direct-generation score on every benchmark</strong>, with a four-benchmark average of 65.09.</p>
+      </div>
+      <div id="results-teacher" data-result-panel role="tabpanel" aria-labelledby="tab-teacher" hidden>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Teacher conditioning ablation; scroll horizontally on smaller screens">
+<table>
+<caption class="visually-hidden">Teacher conditioning ablation</caption>
+<thead><tr><th scope="col">Method</th>
+<th scope="col">GenEval</th>
+<th scope="col">GenEval2</th>
+<th scope="col">WISE</th>
+<th scope="col">R2I-Bench</th>
+<th scope="col">Avg.</th>
+</tr></thead><tbody>
+<tr class="highlight"><th scope="row">Original query + matched harness prompt</th>
+<td><strong>81.28</strong></td>
+<td><strong>82.24</strong></td>
+<td><strong>50.00</strong></td>
+<td>46.83</td>
+<td><strong>65.09</strong></td>
+</tr>
+<tr class=""><th scope="row">Harness prompt only</th>
+<td>80.93</td>
+<td>81.13</td>
+<td>49.14</td>
+<td><strong>47.32</strong></td>
+<td>64.63</td>
+</tr>
+<tr class=""><th scope="row">Original query + shuffled harness prompt</th>
+<td>74.50</td>
+<td>75.38</td>
+<td>48.57</td>
+<td>45.76</td>
+<td>61.05</td>
+</tr>
+</tbody></table></div>
+        <p class="result-summary">The student always receives the original query. <strong>Task-matched query–prompt conditioning</strong> gives the best average. Shuffling the harness prompts reduces scores on all four benchmarks.</p>
+      </div>
+      <div id="results-ood" data-result-panel role="tabpanel" aria-labelledby="tab-ood" hidden>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="T2I-CompBench++ out-of-distribution results; scroll horizontally on smaller screens">
+<table>
+<caption class="visually-hidden">T2I-CompBench++ out-of-distribution results</caption>
+<thead><tr><th scope="col">Method</th>
+<th scope="col">Color</th>
+<th scope="col">Shape</th>
+<th scope="col">Texture</th>
+<th scope="col">2D-Spatial</th>
+<th scope="col">3D-Spatial</th>
+<th scope="col">Numeracy</th>
+<th scope="col">Non-Spatial</th>
+</tr></thead><tbody>
+<tr class=""><th scope="row">Base generator</th>
+<td>77.45</td>
+<td>57.54</td>
+<td>72.79</td>
+<td>32.32</td>
+<td>41.27</td>
+<td>67.98</td>
+<td>31.24</td>
+</tr>
+<tr class=""><th scope="row">D-OPCD–GenEval</th>
+<td><strong>81.61</strong></td>
+<td>57.47</td>
+<td>73.00</td>
+<td>36.19</td>
+<td>41.53</td>
+<td>70.26</td>
+<td><strong>31.52</strong></td>
+</tr>
+<tr class=""><th scope="row">D-OPCD–GenEval2</th>
+<td>81.44</td>
+<td>56.56</td>
+<td>72.36</td>
+<td><strong>37.33</strong></td>
+<td><strong>42.02</strong></td>
+<td><strong>71.05</strong></td>
+<td>31.31</td>
+</tr>
+<tr class=""><th scope="row">D-OPCD–WISE</th>
+<td>77.17</td>
+<td>57.21</td>
+<td>72.67</td>
+<td>32.34</td>
+<td>39.74</td>
+<td>67.09</td>
+<td>31.34</td>
+</tr>
+<tr class=""><th scope="row">D-OPCD–R2I-Bench</th>
+<td>77.06</td>
+<td><strong>57.84</strong></td>
+<td><strong>73.09</strong></td>
+<td>32.00</td>
+<td>41.07</td>
+<td>68.42</td>
+<td>31.33</td>
+</tr>
+</tbody></table></div>
+        <p class="result-summary">Direct generation on seven held-out T2I-CompBench++ categories. Each D-OPCD checkpoint is named for its training benchmark. GenEval- and GenEval2-trained checkpoints improve color binding and 2D spatial relations; the WISE- and R2I-Bench-trained checkpoints remain close to the base overall.</p>
+      </div>
+      <p class="score-note">Scores are on a 0–100 scale; higher is better. Avg. is the unweighted mean across the four benchmarks. Bold indicates the best score in each column.</p>
+    </section>
+
+    <section class="section citation-section container" id="citation" aria-labelledby="citation-title">
+      <div class="citation-header">
+        <h2 id="citation-title">Citation</h2>
+        <button class="button" id="copy-citation">Copy BibTeX</button>
+      </div>
+      <pre><code id="bibtex">@misc{wang2026internalizingagentexperiencediffusion,
+  title = {Internalizing Agent Experience into Diffusion Model Weights via On-Policy Context Distillation},
+  author = {Wenxuan Wang and Zekai Liu and Weinan Zhang and Yu Cheng and Yang Yang},
+  year = {2026},
+  eprint = {2610.07250},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  url = {https://arxiv.org/abs/2610.07250}
+}</code></pre>
+      <p class="copy-status" id="copy-status" role="status"></p>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="container narrow">
+      <div class="footer-icons" aria-label="Project resources">
+        <a class="icon-link" href="https://github.com/Yummytanmo/D-OPCD-CoEvolution" aria-label="Official code on GitHub" title="Code">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a class="icon-link" href="#citation" aria-label="BibTeX citation" title="BibTeX">
+          <i class="fas fa-quote-right" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="footer-content">
+        <p><strong>Acknowledgements.</strong> Our agent scaffold builds on GEMS. We thank the authors of GenEval, GenEval2, WISE Verified, R2I-Bench, and T2I-CompBench++ for their benchmarks and evaluation implementations, and the Z-Image team for the base generator.</p>
+        <p>Powered by the <a href="https://nerfies.github.io/">Nerfies</a> website template, licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Yummytanmo/D-OPCD-CoEvolution">Source code</a>
+        <a href="#main">Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-caption">
+    <div class="lightbox-toolbar">
+      <p id="lightbox-caption"></p>
+      <button class="button" id="close-lightbox" autofocus>Close</button>
+    </div>
+    <img id="enlarged-image" alt="">
+  </dialog>
+</body>
+</html>

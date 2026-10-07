@@ -54,6 +54,7 @@ This is the official implementation of **Diffusion On-Policy Context Distillatio
   - [data/](evaluation/data/README.md): task splits and benchmark annotations.
 - [scripts/](scripts/README.md): Agent and generator launchers.
 - `assets/figures/`: paper figures in PNG and PDF formats.
+- [site/](site/README.md): static paper project page and GitHub Pages publishing.
 
 ## Installation
 
